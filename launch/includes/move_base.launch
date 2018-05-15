@@ -18,8 +18,9 @@
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
   	<remap from="map" to="/map" />
-    <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <!-- Modified -->
+    <rosparam file="$(find multirobot_map_merge_tests)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find multirobot_map_merge_tests)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find multirobot_map_merge_tests)/param/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find multirobot_map_merge_tests)/param/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find turtlebot_navigation)/param/dwa_local_planner_params.yaml" command="load" />
