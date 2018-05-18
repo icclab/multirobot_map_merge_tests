@@ -1,46 +1,32 @@
 FROM ros:kinetic-ros-base
 
-# Kubernetes mode enable env variable
-# defaul (false) means Gazebo will run with GUI
-ENV k8s false
-
 # Update the sources list
 RUN apt-get update
 
 # Install basic applications
-RUN apt-get install -y git
+RUN apt-get install -y git \
+  && apt-get install -y vim 
 
-# Set the default directory where CMD will execute
-WORKDIR /catkin_ws
-
-ADD . /catkin_ws
-
-# Install gezebo
-RUN apt-get install -y \
-  ros-kinetic-gazebo-ros-pkgs \
-  ros-kinetic-gazebo-ros-control \
-  ros-kinetic-kobuki-gazebo-plugins \
-  ros-kinetic-gazebo-plugins
-
-# Install turtlebot packages
-RUN apt-get install -y \
-  ros-kinetic-turtlebot-description \
-  ros-kinetic-turtlebot-bringup \
-  ros-kinetic-turtlebot-navigation \
-  ros-kinetic-turtlebot-teleop
-
-# Install rviz
-RUN apt-get install -y ros-kinetic-rviz
-
-# Install additional packages
-RUN apt-get install -y ros-kinetic-tf2-geometry-msgs
+# Set the directory to cakin_ws
+WORKDIR catkin_ws
 
 # Clone repos
 RUN mkdir src \
   && cd src \
-  && git clone https://github.com/turtlebot/turtlebot_simulator.git \
-  && git clone https://github.com/fitter22/multirobot_map_merge_tests.git \
-  && git clone https://github.com/hrnr/m-explore.git
+  && git clone https://github.com/icclab/multirobot_map_merge_tests.git \
+  && git clone https://github.com/rdesc/m-explore.git 
+
+# Make repos
+RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && rosdep install -y --from-paths . --ignore-src --rosdistro=kinetic && catkin_make_isolated --install"
+
+# Copy entrypoint file into the container at /
+ADD entrypoint.sh /
+
+# Copy map folder into container at /map
+ADD map /map 
+
+# Set the default directory where CMD will execute
+WORKDIR /
 
 # Configure environment
 CMD ["/bin/bash", "entrypoint.sh"]

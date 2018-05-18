@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mapmerger-deploy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: mapmerger
+      labels:
+        app: mapmerger
+        name: mapmerger
+    spec:
+      containers:
+      - name: turtlebot-mapmerger
+        image: robopaas/map-merger:latest
+        imagePullPolicy: Always
+        env:
+        - name: ROS_HOSTNAME
+          value: mapmerger
+        - name: ROS_MASTER_URI 
+          value: http://master.robopatrol.svc.cluster.local:11311
