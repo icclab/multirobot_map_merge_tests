@@ -3,7 +3,6 @@
  <arg name="world_file" default="$(env TURTLEBOT_GAZEBO_WORLD_FILE)"/>
  <arg name="gui" default="true"/>
 
- <!-- Modified -->
  <param name="robot_description" command="$(find xacro)/xacro.py $(find multirobot_map_merge_tests)/robots/kobuki_hexagons_kinect_multi_robot.urdf.xacro"/>
 
  <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -14,7 +13,6 @@
    <arg name="verbose" value="true"/>
  </include>
 
-<!-- Modified -->
  <group ns="turtle">
   <param name="tf_prefix" value="turtle" />
   <param name="amcl/initial_pose_x" value="0" />

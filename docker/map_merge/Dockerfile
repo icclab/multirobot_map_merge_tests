@@ -4,8 +4,7 @@ FROM ros:kinetic-ros-base
 RUN apt-get update
 
 # Install basic applications
-RUN apt-get install -y git \
-  && apt-get install -y vim 
+RUN apt-get install -y git vim ros-kinetic-map-server
 
 # Set the directory to cakin_ws
 WORKDIR catkin_ws
